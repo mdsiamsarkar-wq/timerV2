@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Siam & Sylvia | Shared Timer</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+    <!-- ================= HEADER ================= -->
+
+    <header>
+
+        <h1>
+            ⏱️ Siam & Sylvia
+        </h1>
+
+        <p>
+            Shared Live Timer & Task Board
+        </p>
+
+        <div class="heart-line">
+            ───── ❤️ ─────
+        </div>
+
+    </header>
+
+
+
+    <!-- ================= LIVE CLOCK AND DATE ================= -->
+
+    <section class="top-info">
+
+
+        <!-- LIVE CLOCK -->
+
+        <div class="info-section">
+
+            <h2>
+                🕒 Live Clock
+            </h2>
+
+            <div id="liveClock"
+                 class="live-clock">
+
+                00:00:00
+
+            </div>
+
+            <p id="liveDate">
+                Loading...
+            </p>
+
+        </div>
+
+
+
+        <!-- TODAY -->
+
+        <div class="info-section today-section">
+
+            <h2>
+                🗓️ Today
+            </h2>
+
+            <div id="todayDate"
+                 class="today-date">
+
+                Loading...
+
+            </div>
+
+            <p id="dayName">
+                Loading...
+            </p>
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- ================= TIMER CARDS ================= -->
+
+    <main class="timer-grid">
+
+
+        <!-- =========================================
+             SIAM TIMER
+        ========================================== -->
+
+        <section class="timer-card siam-card">
+
+
+            <!-- NAME -->
+
+            <div class="card-title">
+
+                <div>
+
+                    <span class="user-icon">
+                        👤
+                    </span>
+
+                    <h2>
+                        Siam
+                    </h2>
+
+                </div>
+
+
+                <span class="color-dot siam-dot"></span>
+
+            </div>
+
+
+            <div class="small-line siam-line"></div>
+
+
+
+            <!-- TASK NAME -->
+
+            <div class="task-box">
+
+                <span>✎</span>
+
+                <input
+                    type="text"
+                    id="siamTask"
+                    placeholder="What are you working on?"
+                >
+
+            </div>
+
+
+
+            <!-- SET TIMER -->
+
+            <div class="set-timer">
+
+                <input
+                    type="number"
+                    id="siamSetHours"
+                    placeholder="HH"
+                    min="0"
+                    max="23"
+                >
+
+                <span>:</span>
+
+                <input
+                    type="number"
+                    id="siamSetMinutes"
+                    placeholder="MM"
+                    min="0"
+                    max="59"
+                >
+
+                <span>:</span>
+
+                <input
+                    type="number"
+                    id="siamSetSeconds"
+                    placeholder="SS"
+                    min="0"
+                    max="59"
+                >
+
+            </div>
+
+
+
+            <!-- TIMER AREA -->
+
+            <div class="timer-content">
+
+
+                <!-- ANALOG CLOCK -->
+
+                <div
+                    class="analog-clock siam-clock"
+                    id="siamAnalogClock"
+                >
+
+
+                    <div class="hour-hand"></div>
+
+                    <div class="minute-hand"></div>
+
+                    <div class="second-hand"></div>
+
+                    <div class="clock-center"></div>
+
+
+
+                    <!-- CLOCK NUMBERS -->
+
+                    <span class="number n12">12</span>
+
+                    <span class="number n1">1</span>
+
+                    <span class="number n2">2</span>
+
+                    <span class="number n3">3</span>
+
+                    <span class="number n4">4</span>
+
+                    <span class="number n5">5</span>
+
+                    <span class="number n6">6</span>
+
+                    <span class="number n7">7</span>
+
+                    <span class="number n8">8</span>
+
+                    <span class="number n9">9</span>
+
+                    <span class="number n10">10</span>
+
+                    <span class="number n11">11</span>
+
+
+                    <span class="quartz">
+
+                        QUARTZ
+
+                    </span>
+
+
+                </div>
+
+
+
+                <!-- DIGITAL TIMER -->
+
+                <div class="digital-area">
+
+
+                    <div
+                        class="digital-timer siam-timer"
+                    >
+
+                        <span id="siamHours">
+                            00
+                        </span>
+
+                        :
+
+                        <span id="siamMinutes">
+                            00
+                        </span>
+
+                        :
+
+                        <span id="siamSeconds">
+                            00
+                        </span>
+
+                    </div>
+
+
+
+                    <div class="timer-labels">
+
+                        <span>HR</span>
+
+                        <span>MIN</span>
+
+                        <span>SEC</span>
+
+                    </div>
+
+
+
+                    <!-- STATUS -->
+
+                    <div
+                        id="siamStatus"
+                        class="status"
+                    >
+
+                        <span></span>
+
+                        Stopped
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- BUTTONS -->
+
+            <div class="buttons">
+
+
+                <button
+                    class="start siam-button"
+                    onclick="startTimer('siam')"
+                >
+
+                    ▶ Start
+
+                </button>
+
+
+
+                <button
+                    class="pause"
+                    onclick="pauseTimer('siam')"
+                >
+
+                    Ⅱ Pause
+
+                </button>
+
+
+
+                <button
+                    class="reset"
+                    onclick="resetTimer('siam')"
+                >
+
+                    ⟳ Reset
+
+                </button>
+
+
+            </div>
+
+
+        </section>
+
+
+
+
+        <!-- =========================================
+             SYLVIA TIMER
+        ========================================== -->
+
+        <section class="timer-card sylvia-card">
+
+
+            <!-- NAME -->
+
+            <div class="card-title">
+
+                <div>
+
+                    <span class="user-icon">
+                        👤
+                    </span>
+
+                    <h2>
+                        Sylvia
+                    </h2>
+
+                </div>
+
+
+                <span class="color-dot sylvia-dot"></span>
+
+            </div>
+
+
+            <div class="small-line sylvia-line"></div>
+
+
+
+            <!-- TASK NAME -->
+
+            <div class="task-box">
+
+                <span>✎</span>
+
+                <input
+                    type="text"
+                    id="sylviaTask"
+                    placeholder="What are you working on?"
+                >
+
+            </div>
+
+
+
+            <!-- SET TIMER -->
+
+            <div class="set-timer">
+
+                <input
+                    type="number"
+                    id="sylviaSetHours"
+                    placeholder="HH"
+                    min="0"
+                    max="23"
+                >
+
+                <span>:</span>
+
+                <input
+                    type="number"
+                    id="sylviaSetMinutes"
+                    placeholder="MM"
+                    min="0"
+                    max="59"
+                >
+
+                <span>:</span>
+
+                <input
+                    type="number"
+                    id="sylviaSetSeconds"
+                    placeholder="SS"
+                    min="0"
+                    max="59"
+                >
+
+            </div>
+
+
+
+            <!-- TIMER AREA -->
+
+            <div class="timer-content">
+
+
+                <!-- ANALOG CLOCK -->
+
+                <div
+                    class="analog-clock sylvia-clock"
+                    id="sylviaAnalogClock"
+                >
+
+
+                    <div class="hour-hand"></div>
+
+                    <div class="minute-hand"></div>
+
+                    <div class="second-hand"></div>
+
+                    <div class="clock-center"></div>
+
+
+
+                    <!-- CLOCK NUMBERS -->
+
+                    <span class="number n12">12</span>
+
+                    <span class="number n1">1</span>
+
+                    <span class="number n2">2</span>
+
+                    <span class="number n3">3</span>
+
+                    <span class="number n4">4</span>
+
+                    <span class="number n5">5</span>
+
+                    <span class="number n6">6</span>
+
+                    <span class="number n7">7</span>
+
+                    <span class="number n8">8</span>
+
+                    <span class="number n9">9</span>
+
+                    <span class="number n10">10</span>
+
+                    <span class="number n11">11</span>
+
+
+                    <span class="quartz">
+
+                        QUARTZ
+
+                    </span>
+
+
+                </div>
+
+
+
+                <!-- DIGITAL TIMER -->
+
+                <div class="digital-area">
+
+
+                    <div
+                        class="digital-timer sylvia-timer"
+                    >
+
+                        <span id="sylviaHours">
+                            00
+                        </span>
+
+                        :
+
+                        <span id="sylviaMinutes">
+                            00
+                        </span>
+
+                        :
+
+                        <span id="sylviaSeconds">
+                            00
+                        </span>
+
+                    </div>
+
+
+
+                    <div class="timer-labels">
+
+                        <span>HR</span>
+
+                        <span>MIN</span>
+
+                        <span>SEC</span>
+
+                    </div>
+
+
+
+                    <!-- STATUS -->
+
+                    <div
+                        id="sylviaStatus"
+                        class="status"
+                    >
+
+                        <span></span>
+
+                        Stopped
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- BUTTONS -->
+
+            <div class="buttons">
+
+
+                <button
+                    class="start sylvia-button"
+                    onclick="startTimer('sylvia')"
+                >
+
+                    ▶ Start
+
+                </button>
+
+
+
+                <button
+                    class="pause"
+                    onclick="pauseTimer('sylvia')"
+                >
+
+                    Ⅱ Pause
+
+                </button>
+
+
+
+                <button
+                    class="reset"
+                    onclick="resetTimer('sylvia')"
+                >
+
+                    ⟳ Reset
+
+                </button>
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <h3>
+
+            💗 Changes sync live between Siam and Sylvia
+
+        </h3>
+
+        <p>
+
+            Stay focused. You got this! ✨
+
+        </p>
+
+    </footer>
+
+
+</div>
+
+
+
+<script src="script.js"></script>
+
+
+</body>
+
+</html>

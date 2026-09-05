@@ -1,0 +1,1313 @@
+/* ===============================
+   GLOBAL
+================================ */
+
+* {
+
+    box-sizing: border-box;
+
+}
+
+
+body {
+
+    margin: 0;
+
+    font-family:
+
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #eef2f8,
+            #f9f7f5
+        );
+
+    color: #1e2b40;
+
+}
+
+
+.container {
+
+    width: 97%;
+
+    max-width: 1450px;
+
+    margin: auto;
+
+    padding:
+
+        15px
+        20px
+        30px;
+
+}
+
+
+
+/* ===============================
+   HEADER
+================================ */
+
+header {
+
+    text-align: center;
+
+    margin-bottom: 20px;
+
+}
+
+
+header h1 {
+
+    font-size: 48px;
+
+    margin:
+
+        0
+        0
+        5px;
+
+    font-weight: bold;
+
+}
+
+
+header p {
+
+    font-size: 21px;
+
+    margin: 0;
+
+}
+
+
+.heart-line {
+
+    color: #e64c7d;
+
+    margin-top: 10px;
+
+    font-size: 18px;
+
+}
+
+
+
+/* ===============================
+   TOP INFO
+================================ */
+
+.top-info {
+
+    display: grid;
+
+    grid-template-columns:
+
+        1fr
+        1fr;
+
+    background:
+
+        rgba(
+            255,
+            255,
+            255,
+            0.65
+        );
+
+    border:
+
+        1px
+        solid
+        #c9d5e8;
+
+    border-radius: 20px;
+
+    padding: 30px;
+
+    box-shadow:
+
+        0
+        8px
+        25px
+
+        rgba(
+            0,
+            0,
+            0,
+            0.08
+        );
+
+    margin-bottom: 25px;
+
+}
+
+
+.info-section {
+
+    text-align: center;
+
+    padding: 10px;
+
+}
+
+
+.today-section {
+
+    border-left:
+
+        1px
+        solid
+        #b9c6d8;
+
+}
+
+
+.info-section h2 {
+
+    font-size: 25px;
+
+    margin-bottom: 12px;
+
+}
+
+
+.live-clock {
+
+    font-size: 42px;
+
+    font-weight: bold;
+
+    letter-spacing: 2px;
+
+}
+
+
+.info-section p {
+
+    font-size: 19px;
+
+    margin-top: 10px;
+
+}
+
+
+.today-date {
+
+    font-size: 30px;
+
+    font-weight: bold;
+
+}
+
+
+
+/* ===============================
+   TIMER GRID
+================================ */
+
+.timer-grid {
+
+    display: grid;
+
+    grid-template-columns:
+
+        repeat(
+            2,
+            1fr
+        );
+
+    gap: 25px;
+
+}
+
+
+
+/* ===============================
+   TIMER CARD
+================================ */
+
+.timer-card {
+
+    background:
+
+        rgba(
+            255,
+            255,
+            255,
+            0.65
+        );
+
+    padding: 25px;
+
+    border-radius: 20px;
+
+    box-shadow:
+
+        0
+        8px
+        25px
+
+        rgba(
+            0,
+            0,
+            0,
+            0.08
+        );
+
+}
+
+
+.siam-card {
+
+    border:
+
+        1px
+        solid
+        #b7cce8;
+
+}
+
+
+.sylvia-card {
+
+    border:
+
+        1px
+        solid
+        #efc4d4;
+
+}
+
+
+
+/* ===============================
+   CARD TITLE
+================================ */
+
+.card-title {
+
+    display: flex;
+
+    justify-content:
+
+        space-between;
+
+    align-items: center;
+
+}
+
+
+.card-title div {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+}
+
+
+.card-title h2 {
+
+    font-size: 32px;
+
+    margin: 0;
+
+}
+
+
+.user-icon {
+
+    width: 52px;
+
+    height: 52px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    background:
+
+        #e7edf7;
+
+    border-radius: 50%;
+
+    font-size: 25px;
+
+}
+
+
+.color-dot {
+
+    width: 22px;
+
+    height: 22px;
+
+    border-radius: 50%;
+
+}
+
+
+.siam-dot {
+
+    background: #4c91ed;
+
+}
+
+
+.sylvia-dot {
+
+    background: #e45c95;
+
+}
+
+
+
+/* ===============================
+   DECORATIVE LINE
+================================ */
+
+.small-line {
+
+    width: 180px;
+
+    height: 1px;
+
+    margin:
+
+        8px
+        0
+        20px
+        210px;
+
+    position: relative;
+
+}
+
+
+.siam-line {
+
+    background: #8298b9;
+
+}
+
+
+.sylvia-line {
+
+    background: #d69ab3;
+
+}
+
+
+
+/* ===============================
+   TASK BOX
+================================ */
+
+.task-box {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    border:
+
+        1px
+        solid
+        #c5cbd3;
+
+    border-radius: 10px;
+
+    padding:
+
+        0
+        15px;
+
+    background:
+
+        rgba(
+            255,
+            255,
+            255,
+            0.7
+        );
+
+}
+
+
+.task-box span {
+
+    font-size: 25px;
+
+}
+
+
+.task-box input {
+
+    width: 100%;
+
+    padding: 16px 5px;
+
+    border: none;
+
+    outline: none;
+
+    font-size: 19px;
+
+    background: transparent;
+
+    font-family: inherit;
+
+}
+
+
+
+/* ===============================
+   SET TIMER
+================================ */
+
+.set-timer {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-top: 15px;
+
+}
+
+
+.set-timer input {
+
+    width: 75px;
+
+    padding: 10px;
+
+    text-align: center;
+
+    font-size: 18px;
+
+    font-family: inherit;
+
+    border:
+
+        1px
+        solid
+        #c5cbd3;
+
+    border-radius: 8px;
+
+    outline: none;
+
+    background: white;
+
+}
+
+
+.set-timer input:focus {
+
+    border-color: #4c91ed;
+
+}
+
+
+.set-timer span {
+
+    font-size: 25px;
+
+    font-weight: bold;
+
+}
+
+
+
+/* ===============================
+   TIMER CONTENT
+================================ */
+
+.timer-content {
+
+    display: grid;
+
+    grid-template-columns:
+
+        1fr
+        1fr;
+
+    align-items: center;
+
+    gap: 30px;
+
+    margin-top: 25px;
+
+}
+
+
+
+/* ===============================
+   ANALOG CLOCK
+================================ */
+
+.analog-clock {
+
+    width: 290px;
+
+    height: 290px;
+
+    border-radius: 50%;
+
+    margin: auto;
+
+    position: relative;
+
+    background:
+
+        radial-gradient(
+            circle,
+            #ffffff,
+            #f5f1e8
+        );
+
+    box-shadow:
+
+        inset
+        0
+        0
+        0
+        8px
+        #e5e5e5,
+
+        inset
+        0
+        0
+        15px
+        rgba(
+            0,
+            0,
+            0,
+            0.2
+        ),
+
+        0
+        5px
+        15px
+        rgba(
+            0,
+            0,
+            0,
+            0.25
+        );
+
+}
+
+
+.siam-clock {
+
+    border:
+
+        7px
+        solid
+        #777;
+
+}
+
+
+.sylvia-clock {
+
+    border:
+
+        7px
+        solid
+        #a98247;
+
+}
+
+
+
+/* ===============================
+   CLOCK HANDS
+================================ */
+
+.hour-hand,
+
+.minute-hand,
+
+.second-hand {
+
+    position: absolute;
+
+    bottom: 50%;
+
+    left: 50%;
+
+    transform-origin:
+
+        bottom
+        center;
+
+    transform:
+
+        translateX(-50%)
+        rotate(0deg);
+
+    border-radius: 10px;
+
+}
+
+
+.hour-hand {
+
+    width: 8px;
+
+    height: 70px;
+
+    background: #222;
+
+}
+
+
+.minute-hand {
+
+    width: 6px;
+
+    height: 100px;
+
+    background: #333;
+
+}
+
+
+.second-hand {
+
+    width: 2px;
+
+    height: 110px;
+
+    background: #d63838;
+
+}
+
+
+
+/* ===============================
+   CLOCK CENTER
+================================ */
+
+.clock-center {
+
+    width: 18px;
+
+    height: 18px;
+
+    background: #333;
+
+    border-radius: 50%;
+
+    position: absolute;
+
+    top: 50%;
+
+    left: 50%;
+
+    transform:
+
+        translate(
+            -50%,
+            -50%
+        );
+
+    z-index: 10;
+
+}
+
+
+
+/* ===============================
+   CLOCK NUMBERS
+================================ */
+
+.number {
+
+    position: absolute;
+
+    font-size: 26px;
+
+    font-weight: bold;
+
+}
+
+
+.n12 {
+
+    top: 12px;
+
+    left: 50%;
+
+    transform:
+
+        translateX(-50%);
+
+}
+
+
+.n1 {
+
+    top: 28px;
+
+    right: 65px;
+
+}
+
+
+.n2 {
+
+    top: 65px;
+
+    right: 30px;
+
+}
+
+
+.n3 {
+
+    top: 50%;
+
+    right: 10px;
+
+    transform:
+
+        translateY(-50%);
+
+}
+
+
+.n4 {
+
+    bottom: 65px;
+
+    right: 30px;
+
+}
+
+
+.n5 {
+
+    bottom: 28px;
+
+    right: 65px;
+
+}
+
+
+.n6 {
+
+    bottom: 10px;
+
+    left: 50%;
+
+    transform:
+
+        translateX(-50%);
+
+}
+
+
+.n7 {
+
+    bottom: 28px;
+
+    left: 65px;
+
+}
+
+
+.n8 {
+
+    bottom: 65px;
+
+    left: 30px;
+
+}
+
+
+.n9 {
+
+    top: 50%;
+
+    left: 10px;
+
+    transform:
+
+        translateY(-50%);
+
+}
+
+
+.n10 {
+
+    top: 65px;
+
+    left: 25px;
+
+}
+
+
+.n11 {
+
+    top: 28px;
+
+    left: 60px;
+
+}
+
+
+.quartz {
+
+    position: absolute;
+
+    top: 67%;
+
+    left: 50%;
+
+    transform:
+
+        translateX(-50%);
+
+    font-size: 11px;
+
+    letter-spacing: 1px;
+
+}
+
+
+
+/* ===============================
+   DIGITAL TIMER
+================================ */
+
+.digital-area {
+
+    text-align: center;
+
+}
+
+
+.digital-timer {
+
+    font-size: 50px;
+
+    font-weight: bold;
+
+    padding: 25px 10px;
+
+    border-radius: 18px;
+
+    border:
+
+        1px
+        solid
+        #cbd5e1;
+
+    background:
+
+        rgba(
+            255,
+            255,
+            255,
+            0.5
+        );
+
+    letter-spacing: 3px;
+
+}
+
+
+.siam-timer {
+
+    color: #203c68;
+
+}
+
+
+.sylvia-timer {
+
+    color: #7c2542;
+
+}
+
+
+.timer-labels {
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 45px;
+
+    margin-top: 10px;
+
+    font-size: 16px;
+
+}
+
+
+
+/* ===============================
+   STATUS
+================================ */
+
+.status {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-top: 25px;
+
+    padding:
+
+        10px
+        20px;
+
+    background: #eef7ef;
+
+    border:
+
+        1px
+        solid
+        #c7e1cb;
+
+    border-radius: 30px;
+
+    color: #2f6337;
+
+    font-size: 18px;
+
+}
+
+
+.status span {
+
+    width: 10px;
+
+    height: 10px;
+
+    border-radius: 50%;
+
+    background: #1eb54c;
+
+}
+
+
+
+/* ===============================
+   BUTTONS
+================================ */
+
+.buttons {
+
+    display: flex;
+
+    justify-content:
+
+        center;
+
+    gap: 25px;
+
+    margin-top: 30px;
+
+}
+
+
+button {
+
+    border: none;
+
+    color: white;
+
+    padding:
+
+        15px
+        32px;
+
+    border-radius: 9px;
+
+    font-size: 20px;
+
+    font-family: inherit;
+
+    cursor: pointer;
+
+    transition:
+
+        0.2s;
+
+    box-shadow:
+
+        0
+        4px
+        8px
+
+        rgba(
+            0,
+            0,
+            0,
+            0.15
+        );
+
+}
+
+
+button:hover {
+
+    transform:
+
+        translateY(-2px);
+
+    opacity: 0.9;
+
+}
+
+
+.siam-button {
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #3f7ed8,
+            #2455a0
+        );
+
+}
+
+
+.sylvia-button {
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #e45b9a,
+            #b93770
+        );
+
+}
+
+
+.pause {
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #f5b51d,
+            #d58d00
+        );
+
+}
+
+
+.reset {
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #f14a4a,
+            #c91d29
+        );
+
+}
+
+
+
+/* ===============================
+   FOOTER
+================================ */
+
+footer {
+
+    margin-top: 25px;
+
+    padding: 22px;
+
+    text-align: center;
+
+    border-radius: 18px;
+
+    border:
+
+        1px
+        solid
+        #cbd5e1;
+
+    background:
+
+        rgba(
+            255,
+            255,
+            255,
+            0.6
+        );
+
+}
+
+
+footer h3 {
+
+    margin: 0;
+
+    font-size: 23px;
+
+}
+
+
+footer p {
+
+    margin:
+
+        10px
+        0
+        0;
+
+    font-size: 18px;
+
+}
+
+
+
+/* ===============================
+   MOBILE
+================================ */
+
+@media (max-width: 1100px) {
+
+
+    .timer-grid {
+
+        grid-template-columns:
+
+            1fr;
+
+    }
+
+
+}
+
+
+@media (max-width: 700px) {
+
+
+    .container {
+
+        width: 100%;
+
+        padding: 10px;
+
+    }
+
+
+    header h1 {
+
+        font-size: 35px;
+
+    }
+
+
+    header p {
+
+        font-size: 17px;
+
+    }
+
+
+    .top-info {
+
+        grid-template-columns:
+
+            1fr;
+
+    }
+
+
+    .today-section {
+
+        border-left: none;
+
+        border-top:
+
+            1px
+            solid
+            #b9c6d8;
+
+    }
+
+
+    .timer-content {
+
+        grid-template-columns:
+
+            1fr;
+
+    }
+
+
+    .analog-clock {
+
+        width: 250px;
+
+        height: 250px;
+
+    }
+
+
+    .buttons {
+
+        flex-direction: column;
+
+        gap: 12px;
+
+    }
+
+
+    button {
+
+        width: 100%;
+
+    }
+
+
+    .small-line {
+
+        margin-left: 50px;
+
+    }
+
+
+    .digital-timer {
+
+        font-size: 38px;
+
+    }
+
+
+}
