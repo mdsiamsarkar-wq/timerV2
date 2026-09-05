@@ -334,25 +334,12 @@ function setupTaskSync(user) {
 
 
 // ======================================
-// LIVE CLOCK
+// TODAY DATE
 // ======================================
 
-function updateLiveClock() {
+function updateTodayDate() {
 
     const now = new Date();
-
-    document.getElementById("liveClock").textContent = now.toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit"
-    });
-
-    document.getElementById("liveDate").textContent = now.toLocaleDateString("en-US", {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric"
-    });
 
     document.getElementById("todayDate").textContent = now.toLocaleDateString("en-US", {
         year: "numeric",
@@ -483,43 +470,6 @@ countdownInput.addEventListener("change", function () {
 
 
 // ======================================
-// ACADEMIC CALENDAR MODAL
-// ======================================
-
-const BRAC_CALENDAR_URL = "https://www.bracu.ac.bd/sites/default/files/uploads/2025/12/30/Year%20Planner%202026_up.pdf";
-
-const calendarModal = document.getElementById("calendarModal");
-const calendarFrame = document.getElementById("calendarFrame");
-const openCalendarBtn = document.getElementById("openCalendarBtn");
-const closeCalendarBtn = document.getElementById("closeCalendarBtn");
-
-function openCalendarModal() {
-    calendarFrame.src = BRAC_CALENDAR_URL;
-    calendarModal.classList.add("open");
-}
-
-function closeCalendarModal() {
-    calendarModal.classList.remove("open");
-    calendarFrame.src = "";
-}
-
-openCalendarBtn.addEventListener("click", openCalendarModal);
-closeCalendarBtn.addEventListener("click", closeCalendarModal);
-
-calendarModal.addEventListener("click", function (event) {
-    if (event.target === calendarModal) {
-        closeCalendarModal();
-    }
-});
-
-document.addEventListener("keydown", function (event) {
-    if (event.key === "Escape" && calendarModal.classList.contains("open")) {
-        closeCalendarModal();
-    }
-});
-
-
-// ======================================
 // DARK MODE
 // ======================================
 
@@ -544,76 +494,188 @@ themeToggle.addEventListener("click", function () {
 
 
 // ======================================
-// STOPWATCH
-// Also timestamp-based so it survives tab switches without drifting
+// TO-DO LISTS (Siam & Sylvia)
+// Each user's tasks are stored as an object keyed by task id, so the
+// entire list is overwritten on every change — same pattern as the timer.
 // ======================================
 
-const stopwatch = {
-    running: false,
-    elapsedMs: 0,
-    startTime: null,
-    interval: null
+const todos = {
+    siam: {},
+    sylvia: {}
 };
 
-const stopwatchDisplay = document.getElementById("stopwatchDisplay");
-
-function formatStopwatch(ms) {
-    const totalDeciseconds = Math.floor(ms / 100);
-
-    const hours = Math.floor(totalDeciseconds / 36000);
-    const minutes = Math.floor((totalDeciseconds % 36000) / 600);
-    const seconds = Math.floor((totalDeciseconds % 600) / 10);
-    const deci = totalDeciseconds % 10;
-
-    return (
-        String(hours).padStart(2, "0") + ":" +
-        String(minutes).padStart(2, "0") + ":" +
-        String(seconds).padStart(2, "0") + "." +
-        deci
-    );
+function generateTodoId() {
+    return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
 }
 
-function updateStopwatchDisplay() {
-    const currentElapsed = stopwatch.running
-        ? stopwatch.elapsedMs + (Date.now() - stopwatch.startTime)
-        : stopwatch.elapsedMs;
-
-    stopwatchDisplay.textContent = formatStopwatch(currentElapsed);
+function saveTodos(user) {
+    const todosRef = ref(database, "todos/" + user);
+    set(todosRef, todos[user]);
 }
 
-function startStopwatch() {
-    if (stopwatch.running) {
+function addTodo(user) {
+    const input = document.getElementById(user + "TodoInput");
+    const text = input.value.trim();
+
+    if (!text) {
         return;
     }
 
-    stopwatch.running = true;
-    stopwatch.startTime = Date.now();
+    const id = generateTodoId();
 
-    clearInterval(stopwatch.interval);
-    stopwatch.interval = setInterval(updateStopwatchDisplay, 100);
+    todos[user][id] = {
+        text: text,
+        done: false,
+        createdAt: Date.now()
+    };
+
+    input.value = "";
+    saveTodos(user);
 }
 
-function pauseStopwatch() {
-    if (!stopwatch.running) {
+function toggleTodo(user, id) {
+    if (!todos[user][id]) {
         return;
     }
 
-    stopwatch.elapsedMs += Date.now() - stopwatch.startTime;
-    stopwatch.running = false;
-    stopwatch.startTime = null;
-
-    clearInterval(stopwatch.interval);
-    updateStopwatchDisplay();
+    todos[user][id].done = !todos[user][id].done;
+    saveTodos(user);
 }
 
-function resetStopwatch() {
-    clearInterval(stopwatch.interval);
+function deleteTodo(user, id) {
+    if (!todos[user][id]) {
+        return;
+    }
 
-    stopwatch.running = false;
-    stopwatch.elapsedMs = 0;
-    stopwatch.startTime = null;
+    delete todos[user][id];
+    saveTodos(user);
+}
 
-    updateStopwatchDisplay();
+function editTodo(user, id, newText) {
+    const trimmed = newText.trim();
+
+    if (!todos[user][id]) {
+        return;
+    }
+
+    // An edit that empties the task is treated as a delete
+    if (!trimmed) {
+        delete todos[user][id];
+    } else {
+        todos[user][id].text = trimmed;
+    }
+
+    saveTodos(user);
+}
+
+function renderTodos(user) {
+
+    const list = document.getElementById(user + "TodoList");
+    const emptyMessage = document.getElementById(user + "TodoEmpty");
+
+    list.innerHTML = "";
+
+    const entries = Object.entries(todos[user] || {})
+        .sort(function (a, b) {
+            return (a[1].createdAt || 0) - (b[1].createdAt || 0);
+        });
+
+    if (entries.length === 0) {
+        emptyMessage.classList.remove("hidden");
+        return;
+    }
+
+    emptyMessage.classList.add("hidden");
+
+    entries.forEach(function ([id, task]) {
+
+        const li = document.createElement("li");
+        li.className = "todo-item" + (task.done ? " completed" : "");
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = !!task.done;
+        checkbox.addEventListener("change", function () {
+            toggleTodo(user, id);
+        });
+
+        const textSpan = document.createElement("span");
+        textSpan.className = "todo-text";
+        textSpan.textContent = task.text;
+        textSpan.title = "Click to edit";
+        textSpan.addEventListener("click", function () {
+            startEditingTodo(user, id, li, textSpan);
+        });
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.className = "todo-delete-btn";
+        deleteBtn.textContent = "✕";
+        deleteBtn.title = "Delete task";
+        deleteBtn.addEventListener("click", function () {
+            deleteTodo(user, id);
+        });
+
+        li.appendChild(checkbox);
+        li.appendChild(textSpan);
+        li.appendChild(deleteBtn);
+        list.appendChild(li);
+    });
+}
+
+function startEditingTodo(user, id, li, textSpan) {
+
+    const editInput = document.createElement("input");
+    editInput.type = "text";
+    editInput.className = "todo-edit-input";
+    editInput.value = textSpan.textContent;
+
+    li.replaceChild(editInput, textSpan);
+    editInput.focus();
+    editInput.select();
+
+    function finishEdit(save) {
+        if (save) {
+            editTodo(user, id, editInput.value);
+        } else {
+            renderTodos(user);
+        }
+    }
+
+    editInput.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            finishEdit(true);
+        } else if (event.key === "Escape") {
+            finishEdit(false);
+        }
+    });
+
+    editInput.addEventListener("blur", function () {
+        finishEdit(true);
+    });
+}
+
+function listenToTodos(user) {
+    const todosRef = ref(database, "todos/" + user);
+
+    onValue(todosRef, function (snapshot) {
+        todos[user] = snapshot.val() || {};
+        renderTodos(user);
+    });
+}
+
+function setupTodoInput(user) {
+    const input = document.getElementById(user + "TodoInput");
+    const addBtn = document.getElementById(user + "TodoAddBtn");
+
+    addBtn.addEventListener("click", function () {
+        addTodo(user);
+    });
+
+    input.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            addTodo(user);
+        }
+    });
 }
 
 
@@ -623,8 +685,9 @@ function resetStopwatch() {
 
 initTheme();
 
-updateLiveClock();
-setInterval(updateLiveClock, 1000);
+updateTodayDate();
+// Keep the date/day correct if the page is left open past midnight
+setInterval(updateTodayDate, 60 * 1000);
 
 updateTimer("siam");
 updateTimer("sylvia");
@@ -637,7 +700,11 @@ setupTaskSync("sylvia");
 
 listenToCountdown();
 
-updateStopwatchDisplay();
+listenToTodos("siam");
+listenToTodos("sylvia");
+
+setupTodoInput("siam");
+setupTodoInput("sylvia");
 
 
 // ======================================
@@ -648,7 +715,3 @@ window.startTimer = startTimer;
 window.pauseTimer = pauseTimer;
 window.resetTimer = resetTimer;
 window.deleteTimer = deleteTimer;
-
-window.startStopwatch = startStopwatch;
-window.pauseStopwatch = pauseStopwatch;
-window.resetStopwatch = resetStopwatch;
