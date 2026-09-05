@@ -26,14 +26,8 @@
         <div class="heart-line">───── ❤️ ─────</div>
     </header>
 
-    <!-- ================= LIVE CLOCK AND DATE ================= -->
+    <!-- ================= TODAY ================= -->
     <section class="top-info">
-
-        <div class="info-section">
-            <h2>🕒 Live Clock</h2>
-            <div id="liveClock" class="live-clock">00:00:00</div>
-            <p id="liveDate">Loading...</p>
-        </div>
 
         <div class="info-section today-section">
             <h2>🗓️ Today</h2>
@@ -49,14 +43,10 @@
 
             <div class="countdown-header">
                 <h2>⏳ Reverse Countdown Clock</h2>
-
-                <button id="openCalendarBtn" class="calendar-btn" title="Open BRAC University Academic Calendar">
-                    📅 Academic Calendar
-                </button>
             </div>
 
             <div class="countdown-set">
-                <label for="countdownTarget">Target date &amp; time</label>
+                <label for="countdownTarget"><span class="calendar-icon">📅</span> Target date &amp; time</label>
                 <input type="datetime-local" id="countdownTarget">
             </div>
 
@@ -260,21 +250,57 @@
 
     </main>
 
-    <!-- ================= STOPWATCH ================= -->
-    <section class="stopwatch-section">
-        <div class="stopwatch-card">
+    <!-- ================= TO-DO LISTS ================= -->
+    <section class="todo-grid">
 
-            <h2>⏱️ Stopwatch</h2>
+        <!-- SIAM TO-DO -->
+        <div class="todo-card siam-card">
 
-            <div id="stopwatchDisplay" class="stopwatch-display">00:00:00.0</div>
-
-            <div class="buttons">
-                <button class="start siam-button" onclick="startStopwatch()">▶ Start</button>
-                <button class="pause" onclick="pauseStopwatch()">Ⅱ Pause</button>
-                <button class="reset" onclick="resetStopwatch()">⟳ Reset</button>
+            <div class="card-title">
+                <div>
+                    <span class="user-icon">👤</span>
+                    <h2>Siam's To-Do</h2>
+                </div>
+                <span class="color-dot siam-dot"></span>
             </div>
 
+            <div class="small-line siam-line"></div>
+
+            <div class="todo-input-row">
+                <input type="text" id="siamTodoInput" placeholder="Add a task...">
+                <button class="siam-button" id="siamTodoAddBtn">+ Add</button>
+            </div>
+
+            <ul class="todo-list" id="siamTodoList"></ul>
+
+            <p class="todo-empty" id="siamTodoEmpty">No tasks yet — add one above.</p>
+
         </div>
+
+        <!-- SYLVIA TO-DO -->
+        <div class="todo-card sylvia-card">
+
+            <div class="card-title">
+                <div>
+                    <span class="user-icon">👤</span>
+                    <h2>Sylvia's To-Do</h2>
+                </div>
+                <span class="color-dot sylvia-dot"></span>
+            </div>
+
+            <div class="small-line sylvia-line"></div>
+
+            <div class="todo-input-row">
+                <input type="text" id="sylviaTodoInput" placeholder="Add a task...">
+                <button class="sylvia-button" id="sylviaTodoAddBtn">+ Add</button>
+            </div>
+
+            <ul class="todo-list" id="sylviaTodoList"></ul>
+
+            <p class="todo-empty" id="sylviaTodoEmpty">No tasks yet — add one above.</p>
+
+        </div>
+
     </section>
 
     <!-- ================= FOOTER ================= -->
@@ -283,26 +309,6 @@
         <p>Stay focused. You got this! ✨</p>
     </footer>
 
-</div>
-
-<!-- ================= ACADEMIC CALENDAR MODAL ================= -->
-<div id="calendarModal" class="modal-overlay">
-    <div class="modal-box">
-
-        <div class="modal-header">
-            <h3>BRAC University Academic Calendar 2026</h3>
-            <button id="closeCalendarBtn" class="modal-close" aria-label="Close calendar">✕</button>
-        </div>
-
-        <div class="modal-body">
-            <iframe id="calendarFrame" src="" title="BRAC University Academic Calendar"></iframe>
-            <p class="modal-fallback">
-                If the calendar doesn't load here,
-                <a id="calendarFallbackLink" href="https://www.bracu.ac.bd/sites/default/files/uploads/2025/12/30/Year%20Planner%202026_up.pdf" target="_blank" rel="noopener">open it in a new tab</a>.
-            </p>
-        </div>
-
-    </div>
 </div>
 
 <script type="module" src="script.js"></script>
