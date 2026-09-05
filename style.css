@@ -37,9 +37,6 @@
 
     --footer-bg: rgba(255, 255, 255, 0.6);
 
-    --modal-overlay: rgba(15, 23, 42, 0.55);
-    --modal-bg: #ffffff;
-
     --btn-delete-1: #8a8f98;
     --btn-delete-2: #5c6270;
 }
@@ -78,9 +75,6 @@
     --status-dot: #2fce63;
 
     --footer-bg: rgba(30, 36, 51, 0.75);
-
-    --modal-overlay: rgba(0, 0, 0, 0.7);
-    --modal-bg: #1a2032;
 
     --btn-delete-1: #6b7280;
     --btn-delete-2: #3f4451;
@@ -172,8 +166,8 @@ header {
 ================================ */
 
 .top-info {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    justify-content: center;
     background: var(--panel-bg);
     border: 1px solid var(--panel-border);
     border-radius: 20px;
@@ -185,21 +179,12 @@ header {
 .info-section {
     text-align: center;
     padding: 10px;
-}
-
-.today-section {
-    border-left: 1px solid var(--divider);
+    max-width: 340px;
 }
 
 .info-section h2 {
     font-size: 25px;
     margin-bottom: 12px;
-}
-
-.live-clock {
-    font-size: 42px;
-    font-weight: bold;
-    letter-spacing: 2px;
 }
 
 .info-section p {
@@ -245,21 +230,9 @@ header {
     margin: 0;
 }
 
-.calendar-btn {
-    border: 1px solid var(--panel-border);
-    background: var(--input-solid-bg);
-    color: var(--text-main);
-    font-family: inherit;
-    font-size: 16px;
-    padding: 10px 18px;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.calendar-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px var(--panel-shadow);
+.calendar-icon {
+    font-size: 15px;
+    margin-right: 3px;
 }
 
 .countdown-set {
@@ -745,125 +718,129 @@ button:hover {
 
 
 /* ===============================
-   STOPWATCH
+   TO-DO LISTS
 ================================ */
 
-.stopwatch-section {
+.todo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
     margin-top: 25px;
 }
 
-.stopwatch-card {
+.todo-card {
     background: var(--panel-bg);
-    border: 1px solid var(--panel-border);
+    padding: 25px;
     border-radius: 20px;
-    padding: 30px;
     box-shadow: 0 8px 25px var(--panel-shadow);
-    text-align: center;
 }
 
-.stopwatch-card h2 {
-    font-size: 25px;
-    margin: 0 0 15px;
-}
-
-.stopwatch-display {
-    font-size: 50px;
-    font-weight: bold;
-    padding: 20px 10px;
-    border-radius: 18px;
-    border: 1px solid var(--digital-border);
-    background: var(--digital-bg);
-    letter-spacing: 2px;
-    max-width: 420px;
-    margin: 0 auto;
-}
-
-
-/* ===============================
-   CALENDAR MODAL
-================================ */
-
-.modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: var(--modal-overlay);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    z-index: 100;
-}
-
-.modal-overlay.open {
+.todo-input-row {
     display: flex;
+    gap: 10px;
+    margin-top: 5px;
 }
 
-.modal-box {
-    background: var(--modal-bg);
-    border-radius: 16px;
-    width: 100%;
-    max-width: 900px;
-    height: 85vh;
+.todo-input-row input {
+    flex: 1;
+    padding: 14px 15px;
+    font-size: 17px;
+    font-family: inherit;
+    border: 1px solid var(--input-border);
+    border-radius: 10px;
+    background: var(--input-solid-bg);
+    color: var(--text-main);
+    outline: none;
+}
+
+.todo-input-row input:focus {
+    border-color: #4c91ed;
+}
+
+.todo-input-row button {
+    padding: 0 22px;
+    font-size: 17px;
+    border-radius: 10px;
+    white-space: nowrap;
+}
+
+.todo-list {
+    list-style: none;
+    margin: 20px 0 0;
+    padding: 0;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+    gap: 10px;
 }
 
-.modal-header {
+.todo-item {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 16px 20px;
-    border-bottom: 1px solid var(--panel-border);
+    gap: 12px;
+    padding: 12px 14px;
+    border: 1px solid var(--input-border);
+    border-radius: 10px;
+    background: var(--input-bg);
 }
 
-.modal-header h3 {
-    margin: 0;
-    font-size: 19px;
+.todo-item input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    accent-color: #4c91ed;
+    cursor: pointer;
+}
+
+.todo-item .todo-text {
+    flex: 1;
+    font-size: 17px;
+    word-break: break-word;
+    cursor: text;
+}
+
+.todo-item .todo-edit-input {
+    flex: 1;
+    font-size: 17px;
+    font-family: inherit;
+    padding: 6px 8px;
+    border: 1px solid #4c91ed;
+    border-radius: 6px;
+    outline: none;
+    background: var(--input-solid-bg);
     color: var(--text-main);
 }
 
-.modal-close {
+.todo-item.completed .todo-text {
+    text-decoration: line-through;
+    color: var(--text-muted);
+}
+
+.todo-delete-btn {
     background: transparent;
     box-shadow: none;
-    color: var(--text-main);
-    font-size: 20px;
-    padding: 6px 12px;
-    border-radius: 8px;
+    color: var(--text-muted);
+    padding: 4px 8px;
+    font-size: 16px;
+    border-radius: 6px;
+    flex-shrink: 0;
 }
 
-.modal-close:hover {
+.todo-delete-btn:hover {
     background: var(--icon-bg);
+    color: #c91d29;
     transform: none;
     opacity: 1;
 }
 
-.modal-body {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-    overflow: hidden;
-}
-
-.modal-body iframe {
-    flex: 1;
-    width: 100%;
-    border: none;
-}
-
-.modal-fallback {
+.todo-empty {
     text-align: center;
-    font-size: 14px;
-    padding: 10px;
-    margin: 0;
     color: var(--text-muted);
-    border-top: 1px solid var(--panel-border);
+    font-size: 15px;
+    margin-top: 15px;
 }
 
-.modal-fallback a {
-    color: #4c91ed;
+.todo-empty.hidden {
+    display: none;
 }
 
 
@@ -900,6 +877,10 @@ footer p {
     .timer-grid {
         grid-template-columns: 1fr;
     }
+
+    .todo-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 700px) {
@@ -926,15 +907,6 @@ footer p {
     .header-top {
         flex-direction: column;
         align-items: center;
-    }
-
-    .top-info {
-        grid-template-columns: 1fr;
-    }
-
-    .today-section {
-        border-left: none;
-        border-top: 1px solid var(--divider);
     }
 
     .timer-content {
