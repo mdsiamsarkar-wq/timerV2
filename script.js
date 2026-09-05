@@ -1,4 +1,57 @@
 // ======================================
+// FIREBASE IMPORTS
+// ======================================
+
+import { initializeApp } from
+"https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+
+import {
+    getDatabase,
+    ref,
+    set,
+    onValue
+} from
+"https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
+
+
+// ======================================
+// FIREBASE CONFIG
+// ======================================
+
+const firebaseConfig = {
+
+    apiKey: "PASTE_YOUR_REAL_API_KEY_HERE",
+
+    authDomain: "timerv2-d7d28.firebaseapp.com",
+
+    databaseURL:
+    "https://timerv2-d7d28-default-rtdb.asia-southeast1.firebasedatabase.app",
+
+    projectId: "timerv2-d7d28",
+
+    storageBucket:
+    "timerv2-d7d28.firebasestorage.app",
+
+    messagingSenderId: "618500546909",
+
+    appId:
+    "1:618500546909:web:37eb7ec513d768afb848b4",
+
+    measurementId: "G-KMKH1ZHQ0D"
+
+};
+
+
+// ======================================
+// INITIALIZE FIREBASE
+// ======================================
+
+const app = initializeApp(firebaseConfig);
+
+const database = getDatabase(app);
+
+
+// ======================================
 // TIMER DATA
 // ======================================
 
@@ -12,10 +65,11 @@ const timers = {
 
         running: false,
 
-        interval: null
+        interval: null,
+
+        endTime: null
 
     },
-
 
     sylvia: {
 
@@ -25,52 +79,39 @@ const timers = {
 
         running: false,
 
-        interval: null
+        interval: null,
+
+        endTime: null
 
     }
 
 };
 
 
-
-
 // ======================================
-// GET TIME FROM INPUT BOXES
+// GET TIMER INPUT
 // ======================================
 
 function getInputTime(user) {
 
-
     const hours =
 
         parseInt(
-
-            document.getElementById(
-                user + "SetHours"
-            ).value
-
+            document.getElementById(user + "SetHours").value
         ) || 0;
 
 
     const minutes =
 
         parseInt(
-
-            document.getElementById(
-                user + "SetMinutes"
-            ).value
-
+            document.getElementById(user + "SetMinutes").value
         ) || 0;
 
 
     const seconds =
 
         parseInt(
-
-            document.getElementById(
-                user + "SetSeconds"
-            ).value
-
+            document.getElementById(user + "SetSeconds").value
         ) || 0;
 
 
@@ -91,16 +132,65 @@ function getInputTime(user) {
 }
 
 
+// ======================================
+// SAVE TIMER TO FIREBASE
+// ======================================
+
+function saveTimer(user) {
+
+    const timerRef = ref(
+        database,
+        "timers/" + user
+    );
+
+
+    set(
+
+        timerRef,
+
+        {
+
+            seconds:
+
+                timers[user].seconds,
+
+
+            originalSeconds:
+
+                timers[user].originalSeconds,
+
+
+            running:
+
+                timers[user].running,
+
+
+            endTime:
+
+                timers[user].endTime,
+
+
+            task:
+
+                document.getElementById(
+                    user + "Task"
+                ).value
+
+        }
+
+    );
+
+}
 
 
 // ======================================
-// START COUNTDOWN TIMER
+// START TIMER
 // ======================================
 
 function startTimer(user) {
 
 
-    // Don't start twice
+    // If already running
 
     if (
 
@@ -114,15 +204,13 @@ function startTimer(user) {
 
 
 
-    // If timer has no remaining time,
-    // get time from input
+    // Get new timer time
 
     if (
 
         timers[user].seconds <= 0
 
     ) {
-
 
         const inputTime =
 
@@ -136,13 +224,9 @@ function startTimer(user) {
 
         ) {
 
-
             alert(
-
                 "Please set a timer first!"
-
             );
-
 
             return;
 
@@ -159,25 +243,54 @@ function startTimer(user) {
 
             inputTime;
 
-
-        updateTimer(user);
-
     }
 
 
 
-    // Start countdown
+    // Create finish time
+
+    timers[user].endTime =
+
+        Date.now()
+
+        +
+
+        timers[user].seconds * 1000;
+
+
 
     timers[user].running = true;
 
 
-    updateStatus(
 
-        user,
+    // Save to Firebase
 
-        "Running"
+    saveTimer(user);
+
+
+
+    // Start local display
+
+    runTimer(user);
+
+}
+
+
+// ======================================
+// RUN TIMER
+// ======================================
+
+function runTimer(user) {
+
+
+    // Clear old interval
+
+    clearInterval(
+
+        timers[user].interval
 
     );
+
 
 
     timers[user].interval =
@@ -187,7 +300,52 @@ function startTimer(user) {
             function () {
 
 
-                timers[user].seconds--;
+                if (
+
+                    !timers[user].running
+
+                ) {
+
+                    return;
+
+                }
+
+
+
+                // Calculate remaining time
+
+                const remaining =
+
+                    Math.ceil(
+
+                        (
+
+                            timers[user].endTime
+
+                            -
+
+                            Date.now()
+
+                        )
+
+                        /
+
+                        1000
+
+                    );
+
+
+
+                timers[user].seconds =
+
+                    Math.max(
+
+                        0,
+
+                        remaining
+
+                    );
+
 
 
                 updateTimer(user);
@@ -203,9 +361,6 @@ function startTimer(user) {
                 ) {
 
 
-                    timers[user].seconds = 0;
-
-
                     clearInterval(
 
                         timers[user].interval
@@ -213,10 +368,14 @@ function startTimer(user) {
                     );
 
 
-                    timers[user].running = false;
+                    timers[user].running =
+
+                        false;
 
 
-                    updateTimer(user);
+                    timers[user].endTime =
+
+                        null;
 
 
                     updateStatus(
@@ -228,30 +387,18 @@ function startTimer(user) {
                     );
 
 
-                    alert(
-
-                        "⏰ " +
-
-                        user.toUpperCase()
-
-                        +
-
-                        "'s timer is finished!"
-
-                    );
+                    saveTimer(user);
 
                 }
 
 
             },
 
-            1000
+            250
 
         );
 
 }
-
-
 
 
 // ======================================
@@ -272,6 +419,43 @@ function pauseTimer(user) {
     }
 
 
+
+    // Calculate remaining time
+
+    const remaining =
+
+        Math.ceil(
+
+            (
+
+                timers[user].endTime
+
+                -
+
+                Date.now()
+
+            )
+
+            /
+
+            1000
+
+        );
+
+
+
+    timers[user].seconds =
+
+        Math.max(
+
+            0,
+
+            remaining
+
+        );
+
+
+
     clearInterval(
 
         timers[user].interval
@@ -279,7 +463,19 @@ function pauseTimer(user) {
     );
 
 
-    timers[user].running = false;
+
+    timers[user].running =
+
+        false;
+
+
+    timers[user].endTime =
+
+        null;
+
+
+
+    updateTimer(user);
 
 
     updateStatus(
@@ -290,9 +486,11 @@ function pauseTimer(user) {
 
     );
 
+
+
+    saveTimer(user);
+
 }
-
-
 
 
 // ======================================
@@ -309,15 +507,21 @@ function resetTimer(user) {
     );
 
 
-    timers[user].running = false;
+    timers[user].running =
+
+        false;
 
 
+    timers[user].endTime =
 
-    // Return to original selected time
+        null;
+
+
 
     timers[user].seconds =
 
         timers[user].originalSeconds;
+
 
 
     updateTimer(user);
@@ -331,9 +535,11 @@ function resetTimer(user) {
 
     );
 
+
+
+    saveTimer(user);
+
 }
-
-
 
 
 // ======================================
@@ -361,7 +567,11 @@ function updateTimer(user) {
 
         Math.floor(
 
-            (totalSeconds % 3600)
+            (
+
+                totalSeconds % 3600
+
+            )
 
             / 60
 
@@ -374,61 +584,36 @@ function updateTimer(user) {
 
 
 
-    // HOURS
-
     document.getElementById(
-
         user + "Hours"
-
     ).textContent =
 
         String(hours).padStart(
-
             2,
-
             "0"
-
         );
 
 
-
-    // MINUTES
-
     document.getElementById(
-
         user + "Minutes"
-
     ).textContent =
 
         String(minutes).padStart(
-
             2,
-
             "0"
-
         );
 
 
-
-    // SECONDS
-
     document.getElementById(
-
         user + "Seconds"
-
     ).textContent =
 
         String(seconds).padStart(
-
             2,
-
             "0"
-
         );
 
 
-
-    // UPDATE ANALOG CLOCK
 
     updateAnalogTimer(
 
@@ -443,8 +628,6 @@ function updateTimer(user) {
     );
 
 }
-
-
 
 
 // ======================================
@@ -501,9 +684,6 @@ function updateAnalogTimer(
 
 
 
-    // CALCULATE ROTATION
-
-
     const secondDegree =
 
         seconds * 6;
@@ -528,9 +708,6 @@ function updateAnalogTimer(
 
 
 
-    // ROTATE HANDS
-
-
     secondHand.style.transform =
 
         `translateX(-50%) rotate(${secondDegree}deg)`;
@@ -546,8 +723,6 @@ function updateAnalogTimer(
         `translateX(-50%) rotate(${hourDegree}deg)`;
 
 }
-
-
 
 
 // ======================================
@@ -583,6 +758,220 @@ function updateStatus(
 }
 
 
+// ======================================
+// LISTEN TO FIREBASE
+// ======================================
+
+function listenToTimer(user) {
+
+
+    const timerRef =
+
+        ref(
+
+            database,
+
+            "timers/" + user
+
+        );
+
+
+
+    onValue(
+
+        timerRef,
+
+        function (
+
+            snapshot
+
+        ) {
+
+
+            const data =
+
+                snapshot.val();
+
+
+
+            if (
+
+                !data
+
+            ) {
+
+                return;
+
+            }
+
+
+
+            // Stop old timer
+
+            clearInterval(
+
+                timers[user].interval
+
+            );
+
+
+
+            timers[user].seconds =
+
+                data.seconds || 0;
+
+
+            timers[user].originalSeconds =
+
+                data.originalSeconds || 0;
+
+
+            timers[user].running =
+
+                data.running || false;
+
+
+            timers[user].endTime =
+
+                data.endTime || null;
+
+
+
+            // Update task
+
+            document.getElementById(
+
+                user + "Task"
+
+            ).value =
+
+                data.task || "";
+
+
+
+            // If running, calculate correct time
+
+            if (
+
+                timers[user].running
+
+                &&
+
+                timers[user].endTime
+
+            ) {
+
+
+                const remaining =
+
+                    Math.ceil(
+
+                        (
+
+                            timers[user].endTime
+
+                            -
+
+                            Date.now()
+
+                        )
+
+                        /
+
+                        1000
+
+                    );
+
+
+
+                timers[user].seconds =
+
+                    Math.max(
+
+                        0,
+
+                        remaining
+
+                    );
+
+
+                runTimer(user);
+
+
+                updateStatus(
+
+                    user,
+
+                    "Running"
+
+                );
+
+            }
+
+
+            else {
+
+
+                updateStatus(
+
+                    user,
+
+                    timers[user].seconds > 0
+
+                    ?
+
+                    "Paused"
+
+                    :
+
+                    "Stopped"
+
+                );
+
+            }
+
+
+
+            updateTimer(user);
+
+        }
+
+    );
+
+}
+
+
+// ======================================
+// TASK NAME LIVE SYNC
+// ======================================
+
+function setupTaskSync(user) {
+
+
+    const taskInput =
+
+        document.getElementById(
+
+            user + "Task"
+
+        );
+
+
+
+    taskInput.addEventListener(
+
+        "input",
+
+        function () {
+
+
+            saveTimer(user);
+
+        }
+
+    );
+
+}
 
 
 // ======================================
@@ -596,9 +985,6 @@ function updateLiveClock() {
 
         new Date();
 
-
-
-    // LIVE TIME
 
 
     document.getElementById(
@@ -629,9 +1015,6 @@ function updateLiveClock() {
 
         );
 
-
-
-    // FULL DATE
 
 
     document.getElementById(
@@ -668,9 +1051,6 @@ function updateLiveClock() {
 
 
 
-    // TODAY DATE
-
-
     document.getElementById(
 
         "todayDate"
@@ -701,9 +1081,6 @@ function updateLiveClock() {
 
 
 
-    // DAY NAME
-
-
     document.getElementById(
 
         "dayName"
@@ -727,14 +1104,14 @@ function updateLiveClock() {
 }
 
 
+// ======================================
+// INITIALIZE WEBSITE
+// ======================================
 
 
-// ======================================
-// UPDATE LIVE CLOCK EVERY SECOND
-// ======================================
+// Start live clock
 
 updateLiveClock();
-
 
 setInterval(
 
@@ -745,13 +1122,33 @@ setInterval(
 );
 
 
-
-
-// ======================================
-// INITIALIZE TIMERS
-// ======================================
+// Initialize displays
 
 updateTimer("siam");
 
-
 updateTimer("sylvia");
+
+
+// Connect Firebase listeners
+
+listenToTimer("siam");
+
+listenToTimer("sylvia");
+
+
+// Connect task syncing
+
+setupTaskSync("siam");
+
+setupTaskSync("sylvia");
+
+
+// ======================================
+// MAKE FUNCTIONS AVAILABLE TO HTML
+// ======================================
+
+window.startTimer = startTimer;
+
+window.pauseTimer = pauseTimer;
+
+window.resetTimer = resetTimer;
