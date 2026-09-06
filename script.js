@@ -148,6 +148,7 @@ function runTimer(user) {
 
             updateStatus(user, "Finished!");
             saveTimer(user);
+            celebrateTimerFinish(user);
         }
 
     }, 250);
@@ -308,6 +309,8 @@ function listenToTimer(user) {
                 timers[user].running = false;
                 timers[user].endTime = null;
                 updateStatus(user, "Finished!");
+                saveTimer(user);
+                celebrateTimerFinish(user);
             }
 
         } else {
@@ -596,6 +599,9 @@ function renderTodos(user) {
         checkbox.type = "checkbox";
         checkbox.checked = !!task.done;
         checkbox.addEventListener("change", function () {
+            if (checkbox.checked) {
+                celebrateTaskDone(user, task.text);
+            }
             toggleTodo(user, id);
         });
 
@@ -676,6 +682,75 @@ function setupTodoInput(user) {
             addTodo(user);
         }
     });
+}
+
+
+// ======================================
+// CONGRATULATIONS POPUP
+// Shown when a timer finishes or a to-do item is checked off,
+// with a brief screen shake for emphasis.
+// ======================================
+
+const celebrationOverlay = document.getElementById("celebrationOverlay");
+const celebrationTitle = document.getElementById("celebrationTitle");
+const celebrationMessage = document.getElementById("celebrationMessage");
+const celebrationCloseBtn = document.getElementById("celebrationCloseBtn");
+
+let celebrationAutoCloseTimeout = null;
+
+function showCelebration(title, message) {
+
+    celebrationTitle.textContent = title;
+    celebrationMessage.textContent = message;
+    celebrationOverlay.classList.add("open");
+
+    // Brief screen shake for emphasis
+    document.body.classList.remove("screen-shake");
+    // Force reflow so the animation can be retriggered back-to-back
+    void document.body.offsetWidth;
+    document.body.classList.add("screen-shake");
+
+    clearTimeout(celebrationAutoCloseTimeout);
+    celebrationAutoCloseTimeout = setTimeout(closeCelebration, 4000);
+}
+
+function closeCelebration() {
+    celebrationOverlay.classList.remove("open");
+    clearTimeout(celebrationAutoCloseTimeout);
+}
+
+celebrationCloseBtn.addEventListener("click", closeCelebration);
+
+celebrationOverlay.addEventListener("click", function (event) {
+    if (event.target === celebrationOverlay) {
+        closeCelebration();
+    }
+});
+
+document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" && celebrationOverlay.classList.contains("open")) {
+        closeCelebration();
+    }
+});
+
+function capitalize(name) {
+    return name.charAt(0).toUpperCase() + name.slice(1);
+}
+
+function celebrateTimerFinish(user) {
+    const name = capitalize(user);
+    const task = (document.getElementById(user + "Task").value || "").trim();
+
+    const message = task
+        ? name + "'s timer is done — great work on \u201c" + task + "\u201d!"
+        : name + "'s timer is done. Great work!";
+
+    showCelebration("Time's Up!", message);
+}
+
+function celebrateTaskDone(user, taskText) {
+    const name = capitalize(user);
+    showCelebration("Task Complete!", name + " finished: \u201c" + taskText + "\u201d");
 }
 
 
