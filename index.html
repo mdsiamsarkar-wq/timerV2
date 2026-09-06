@@ -26,24 +26,20 @@
         <div class="heart-line">───── ❤️ ─────</div>
     </header>
 
-    <!-- ================= TODAY ================= -->
+    <!-- ================= TODAY + REVERSE COUNTDOWN CLOCK ================= -->
     <section class="top-info">
 
-        <div class="info-section today-section">
+        <div class="today-panel">
             <h2>🗓️ Today</h2>
             <div id="todayDate" class="today-date">Loading...</div>
             <p id="dayName">Loading...</p>
         </div>
 
-    </section>
+        <div class="panel-divider"></div>
 
-    <!-- ================= REVERSE COUNTDOWN CLOCK ================= -->
-    <section class="countdown-section">
-        <div class="countdown-card">
+        <div class="countdown-panel">
 
-            <div class="countdown-header">
-                <h2>⏳ Reverse Countdown Clock</h2>
-            </div>
+            <h2>⏳ Reverse Countdown Clock</h2>
 
             <div class="countdown-set">
                 <label for="countdownTarget"><span class="calendar-icon">📅</span> Target date &amp; time</label>
@@ -83,6 +79,7 @@
             <p id="countdownMessage" class="countdown-message">Set a target date to start counting down.</p>
 
         </div>
+
     </section>
 
     <!-- ================= TIMER CARDS ================= -->
@@ -309,6 +306,16 @@
         <p>Stay focused. You got this! ✨</p>
     </footer>
 
+</div>
+
+<!-- ================= CONGRATULATIONS POPUP ================= -->
+<div id="celebrationOverlay" class="celebration-overlay">
+    <div class="celebration-box">
+        <div class="celebration-emoji">🎉</div>
+        <h3 id="celebrationTitle">Congratulations!</h3>
+        <p id="celebrationMessage"></p>
+        <button id="celebrationCloseBtn" class="celebration-close">Nice!</button>
+    </div>
 </div>
 
 <script type="module" src="script.js"></script>
